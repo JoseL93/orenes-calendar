@@ -1,0 +1,53 @@
+modules = ["python-3.11"]
+
+[nix]
+channel = "stable-25_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Schedule Generator"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "schedule_generator_test"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Web App"
+
+[[workflows.workflow]]
+name = "Schedule Generator"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --start-date 2024-08-01 --days 30 --output-dir ./output"
+
+[[workflows.workflow]]
+name = "schedule_generator_test"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py --start-date 2024-08-01 --days 30 --output-dir output"
+
+[[workflows.workflow]]
+name = "Web App"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python app.py"
+waitForPort = 5000
+
+[[ports]]
+localPort = 5000
+externalPort = 80

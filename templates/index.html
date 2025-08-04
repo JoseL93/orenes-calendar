@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <form method="POST" action="{{ url_for('generate') }}" id="calendarForm">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <label for="month" class="form-label fw-bold">
+                        <i class="fas fa-calendar me-2"></i>Mes
+                    </label>
+                    <select class="form-select" id="month" name="month" required>
+                        {% for month_num, month_name in months %}
+                            <option value="{{ month_num }}" 
+                                    {% if month_num == current_month %}selected{% endif %}>
+                                {{ month_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="col-md-6">
+                    <label for="year" class="form-label fw-bold">
+                        <i class="fas fa-calendar-alt me-2"></i>Año
+                    </label>
+                    <select class="form-select" id="year" name="year" required>
+                        {% for year in year_options %}
+                            <option value="{{ year }}" 
+                                    {% if year == current_year %}selected{% endif %}>
+                                {{ year }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card border-0 bg-light">
+                        <div class="card-body">
+                            <h6 class="card-title">
+                                <i class="fas fa-info-circle text-primary me-2"></i>
+                                Información del Sistema
+                            </h6>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="text-center">
+                                        <i class="fas fa-users text-primary fa-2x mb-2"></i>
+                                        <h6>Empleados</h6>
+                                        <p class="mb-0 small">Ludy, Isaac, Génesis</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="text-center">
+                                        <i class="fas fa-sync-alt text-success fa-2x mb-2"></i>
+                                        <h6>Ciclos de Rotación</h6>
+                                        <p class="mb-0 small">3-2, 3-2, 4-1, 4-2 días</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="text-center">
+                                        <i class="fas fa-clock text-warning fa-2x mb-2"></i>
+                                        <h6>Turnos</h6>
+                                        <p class="mb-0 small">Mañana y Tarde alternos</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <button type="button" class="btn btn-outline-primary me-3" onclick="showPreview()">
+                        <i class="fas fa-eye me-2"></i>Vista Previa
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-download me-2"></i>Descargar Calendario Excel
+                    </button>
+                </div>
+            </div>
+        </form>
+        
+        <!-- Preview Section -->
+        <div id="previewSection" class="mt-4" style="display: none;">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-eye me-2"></i>Vista Previa - Primeros 7 días
+                    </h5>
+                </div>
+                <div class="card-body" id="previewContent">
+                    <!-- Preview content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function showPreview() {
+    const month = document.getElementById('month').value;
+    const year = document.getElementById('year').value;
+    
+    // Show loading state
+    const previewSection = document.getElementById('previewSection');
+    const previewContent = document.getElementById('previewContent');
+    
+    previewContent.innerHTML = `
+        <div class="text-center">
+            <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
+            <p class="mt-2">Generando vista previa...</p>
+        </div>
+    `;
+    previewSection.style.display = 'block';
+    
+    // Fetch preview
+    fetch(`/preview?month=${month}&year=${year}`)
+        .then(response => response.text())
+        .then(html => {
+            // Extract just the preview content from the full HTML response
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const content = doc.querySelector('#previewContent');
+            if (content) {
+                previewContent.innerHTML = content.innerHTML;
+            } else {
+                previewContent.innerHTML = '<p class="text-danger">Error al cargar la vista previa</p>';
+            }
+        })
+        .catch(error => {
+            previewContent.innerHTML = '<p class="text-danger">Error al cargar la vista previa</p>';
+        });
+}
+
+// Auto-hide alerts after 5 seconds
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            const bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        });
+    }, 5000);
+});
+</script>
+{% endblock %}

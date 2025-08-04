@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Vista Previa - {{ month_name }} {{ year }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3><i class="fas fa-eye me-2"></i>Vista Previa - {{ month_name }} {{ year }}</h3>
+            <div>
+                <a href="{{ url_for('index') }}" class="btn btn-outline-secondary me-2">
+                    <i class="fas fa-arrow-left me-2"></i>Volver
+                </a>
+                <form method="POST" action="{{ url_for('generate') }}" style="display: inline;">
+                    <input type="hidden" name="month" value="{{ selected_month }}">
+                    <input type="hidden" name="year" value="{{ selected_year }}">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-download me-2"></i>Descargar Excel Completo
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <div id="previewContent">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Primeros 7 días del mes</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Día de la Semana</th>
+                                    <th>Ludy</th>
+                                    <th>Isaac</th>
+                                    <th>Génesis</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for day in schedule %}
+                                <tr>
+                                    <td class="fw-bold">{{ day['Fecha'] }}</td>
+                                    <td>{{ day['Día'] }}</td>
+                                    {% if day['Ludy']['status'] == 'Trabajando' %}
+                                        {% if day['Ludy']['shift'] == 'Mañana' %}
+                                            <td class="text-center morning text-dark fw-bold">
+                                                <i class="fas fa-sun me-1"></i>{{ day['Ludy']['shift'] }}
+                                            </td>
+                                        {% else %}
+                                            <td class="text-center afternoon text-dark fw-bold">
+                                                <i class="fas fa-sun me-1"></i>{{ day['Ludy']['shift'] }}
+                                            </td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td class="text-center rest text-dark fw-bold">
+                                            <i class="fas fa-bed me-1"></i>Descanso
+                                        </td>
+                                    {% endif %}
+                                    
+                                    {% if day['Isaac']['status'] == 'Trabajando' %}
+                                        {% if day['Isaac']['shift'] == 'Mañana' %}
+                                            <td class="text-center morning text-dark fw-bold">
+                                                <i class="fas fa-sun me-1"></i>{{ day['Isaac']['shift'] }}
+                                            </td>
+                                        {% else %}
+                                            <td class="text-center afternoon text-dark fw-bold">
+                                                <i class="fas fa-sun me-1"></i>{{ day['Isaac']['shift'] }}
+                                            </td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td class="text-center rest text-dark fw-bold">
+                                            <i class="fas fa-bed me-1"></i>Descanso
+                                        </td>
+                                    {% endif %}
+                                    
+                                    {% if day['Genesis']['status'] == 'Trabajando' %}
+                                        {% if day['Genesis']['shift'] == 'Mañana' %}
+                                            <td class="text-center morning text-dark fw-bold">
+                                                <i class="fas fa-sun me-1"></i>{{ day['Genesis']['shift'] }}
+                                            </td>
+                                        {% else %}
+                                            <td class="text-center afternoon text-dark fw-bold">
+                                                <i class="fas fa-sun me-1"></i>{{ day['Genesis']['shift'] }}
+                                            </td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td class="text-center rest text-dark fw-bold">
+                                            <i class="fas fa-bed me-1"></i>Descanso
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h6><i class="fas fa-info-circle me-2"></i>Información del patrón:</h6>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Exactamente 2 empleados trabajando, 1 descansando cada día</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Rotación de turnos entre Mañana y Tarde por ciclo</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Ciclos: 3-2, 3-2, 4-1, 4-2 días (trabajo-descanso)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
