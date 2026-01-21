@@ -12,16 +12,16 @@ def debug_schedule():
     
     # Create employees with initial conditions
     ludy = Employee.create_ludy()
-    isaac = Employee.create_isaac()
-    genesis = Employee.create_genesis()
+    sanye = Employee.create_sanye()
+    clari = Employee.create_clari()
     
     print("Initial conditions (August 1, 2024):")
     print(f"Ludy: {ludy.get_schedule_info()}")
-    print(f"Isaac: {isaac.get_schedule_info()}")
-    print(f"Genesis: {genesis.get_schedule_info()}")
+    print(f"Sanye: {sanye.get_schedule_info()}")
+    print(f"Clari: {clari.get_schedule_info()}")
     print()
     
-    employees = {'Ludy': ludy, 'Isaac': isaac, 'Genesis': genesis}
+    employees = {'Ludy': ludy, 'Sanye': sanye, 'Clari': clari}
     current_date = start_date
     
     # Simulate first 7 days to find the issue

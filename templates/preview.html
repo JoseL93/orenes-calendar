@@ -34,8 +34,8 @@
                                     <th>Fecha</th>
                                     <th>Día de la Semana</th>
                                     <th>Ludy</th>
-                                    <th>Isaac</th>
-                                    <th>Génesis</th>
+                                    <th>Sanye</th>
+                                    <th>Clari</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,14 +59,14 @@
                                         </td>
                                     {% endif %}
                                     
-                                    {% if day['Isaac']['status'] == 'Trabajando' %}
-                                        {% if day['Isaac']['shift'] == 'Mañana' %}
+                                    {% if day['Sanye']['status'] == 'Trabajando' %}
+                                        {% if day['Sanye']['shift'] == 'Mañana' %}
                                             <td class="text-center morning text-dark fw-bold">
-                                                <i class="fas fa-sun me-1"></i>{{ day['Isaac']['shift'] }}
+                                                <i class="fas fa-sun me-1"></i>{{ day['Sanye']['shift'] }}
                                             </td>
                                         {% else %}
                                             <td class="text-center afternoon text-dark fw-bold">
-                                                <i class="fas fa-sun me-1"></i>{{ day['Isaac']['shift'] }}
+                                                <i class="fas fa-sun me-1"></i>{{ day['Sanye']['shift'] }}
                                             </td>
                                         {% endif %}
                                     {% else %}
@@ -75,14 +75,14 @@
                                         </td>
                                     {% endif %}
                                     
-                                    {% if day['Genesis']['status'] == 'Trabajando' %}
-                                        {% if day['Genesis']['shift'] == 'Mañana' %}
+                                    {% if day['Clari']['status'] == 'Trabajando' %}
+                                        {% if day['Clari']['shift'] == 'Mañana' %}
                                             <td class="text-center morning text-dark fw-bold">
-                                                <i class="fas fa-sun me-1"></i>{{ day['Genesis']['shift'] }}
+                                                <i class="fas fa-sun me-1"></i>{{ day['Clari']['shift'] }}
                                             </td>
                                         {% else %}
                                             <td class="text-center afternoon text-dark fw-bold">
-                                                <i class="fas fa-sun me-1"></i>{{ day['Genesis']['shift'] }}
+                                                <i class="fas fa-sun me-1"></i>{{ day['Clari']['shift'] }}
                                             </td>
                                         {% endif %}
                                     {% else %}

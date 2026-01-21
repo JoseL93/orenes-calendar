@@ -94,22 +94,22 @@ class Employee:
         return cls("Ludy", 3, 4, "Mañana", is_resting=False)
     
     @classmethod
-    def create_isaac(cls):
+    def create_sanye(cls):
         """
-        Create Isaac with initial conditions:
+        Create Sanye with initial conditions:
         - August 1st is second day of 4-1 rotation (day 2 of work period)  
         - Working afternoon shift
         """
-        return cls("Isaac", 2, 2, "Tarde", is_resting=False)
+        return cls("Sanye", 2, 2, "Tarde", is_resting=False)
     
     @classmethod
-    def create_genesis(cls):
+    def create_clari(cls):
         """
-        Create Genesis with initial conditions:
+        Create Clari with initial conditions:
         - August 1st is in rest period, will start working August 2nd
         - Will start with morning shift
         """
-        # Position Genesis to start working on day 2 (August 2nd)
+        # Position Clari to start working on day 2 (August 2nd)
         # This creates proper staggering with other employees
-        genesis = cls("Genesis", 0, 5, "Tarde", is_resting=True)  # In 3-2 cycle, last rest day
-        return genesis
+        clari = cls("Clari", 0, 5, "Tarde", is_resting=True)  # In 3-2 cycle, last rest day
+        return clari

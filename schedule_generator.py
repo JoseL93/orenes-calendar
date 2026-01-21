@@ -30,8 +30,8 @@ class ScheduleGenerator:
         self.reference_date = date(2025, 8, 1)
         self.employees = {
             'Ludy': Employee.create_ludy(),
-            'Isaac': Employee.create_isaac(),
-            'Genesis': Employee.create_genesis()
+            'Sanye': Employee.create_sanye(),
+            'Clari': Employee.create_clari()
         }
         # Calculate days from reference and advance employee states
         self._advance_to_start_date()
@@ -174,7 +174,7 @@ class ScheduleGenerator:
                             # Create cell content with employee info and color info
                             cell_content = []
                             cell_colors = []
-                            for emp_name in ['Ludy', 'Isaac', 'Genesis']:
+                            for emp_name in ['Ludy', 'Sanye', 'Clari']:
                                 emp_data = day_schedule[emp_name]
                                 if emp_data['status'] == 'Trabajando':
                                     cell_content.append(f"{emp_name}: {emp_data['shift']}")
@@ -283,8 +283,8 @@ class ScheduleGenerator:
                 # Set row heights for the week structure
                 cal_ws.row_dimensions[week_start_row].height = 25  # Day number row
                 cal_ws.row_dimensions[week_start_row + 1].height = 30  # Ludy row  
-                cal_ws.row_dimensions[week_start_row + 2].height = 30  # Isaac row
-                cal_ws.row_dimensions[week_start_row + 3].height = 30  # Genesis row
+                cal_ws.row_dimensions[week_start_row + 2].height = 30  # Sanye row
+                cal_ws.row_dimensions[week_start_row + 3].height = 30  # Clari row
                 
                 for col, day_data in enumerate(week_data, 1):
                     if day_data == "":  # Empty cell for days not in this month
@@ -298,7 +298,7 @@ class ScheduleGenerator:
                         day_cell.fill = PatternFill(start_color="E6E6E6", end_color="E6E6E6", fill_type="solid")
                         
                         # Employee cells with individual colors
-                        employee_names = ['Ludy', 'Isaac', 'Genesis']
+                        employee_names = ['Ludy', 'Sanye', 'Clari']
                         for i, emp_name in enumerate(employee_names):
                             emp_data = day_data['schedule'][emp_name]
                             emp_row = week_start_row + 1 + i
@@ -363,7 +363,7 @@ class ScheduleGenerator:
             general_ws.title = "Lista General"
         
         # Headers for general schedule
-        headers = ['Fecha', 'Día', 'Ludy', 'Isaac', 'Génesis']
+        headers = ['Fecha', 'Día', 'Ludy', 'Sanye', 'Clari']
         for col, header in enumerate(headers, 1):
             cell = general_ws.cell(row=1, column=col, value=header)
             cell.font = header_font
@@ -381,7 +381,7 @@ class ScheduleGenerator:
             
             # Employee statuses
             col = 3
-            for emp_name in ['Ludy', 'Isaac', 'Genesis']:
+            for emp_name in ['Ludy', 'Sanye', 'Clari']:
                 emp_data = day_schedule[emp_name]
                 if emp_data['status'] == 'Trabajando':
                     cell_value = f"{emp_data['shift']}"
@@ -408,7 +408,7 @@ class ScheduleGenerator:
             general_ws.column_dimensions[column_letter].width = min(max_length + 2, 20)
         
         # Create individual employee calendars
-        for emp_name in ['Ludy', 'Isaac', 'Genesis']:
+        for emp_name in ['Ludy', 'Sanye', 'Clari']:
             # Individual calendar view
             cal_ws = wb.create_sheet(title=f"Cal. {emp_name}")
             
@@ -588,7 +588,7 @@ class ScheduleGenerator:
         """
         print(f"\nSchedule Summary (first {days_to_show} days):")
         print("=" * 100)
-        print(f"{'Date':<12} {'Weekday':<10} {'Ludy':<20} {'Isaac':<20} {'Genesis':<20}")
+        print(f"{'Date':<12} {'Weekday':<10} {'Ludy':<20} {'Sanye':<20} {'Clari':<20}")
         print("-" * 100)
         
         current_date = self.start_date
@@ -598,7 +598,7 @@ class ScheduleGenerator:
             
             row = f"{date_str:<12} {weekday:<10} "
             
-            for emp_name in ['Ludy', 'Isaac', 'Genesis']:
+            for emp_name in ['Ludy', 'Sanye', 'Clari']:
                 emp_data = day_schedule[emp_name]
                 status_shift = f"{emp_data['status']}"
                 if emp_data['status'] == 'Working':
